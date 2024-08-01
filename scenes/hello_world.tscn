@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://4c0cbijst57s"]
+[gd_scene load_steps=4 format=3 uid="uid://4c0cbijst57s"]
+
+[ext_resource type="Script" path="res://scripts/hello_world.gd" id="1_k8vwo"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_evjwf"]
 size = Vector3(32, 0.5, 32)
@@ -7,6 +9,7 @@ size = Vector3(32, 0.5, 32)
 size = Vector3(32, 0.5, 32)
 
 [node name="HelloWorld" type="Node3D"]
+script = ExtResource("1_k8vwo")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.974535, 0.224237, 0, -0.224237, 0.974535, 0, 3.78311, 18.1031)
@@ -20,3 +23,6 @@ shape = SubResource("BoxShape3D_evjwf")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
 mesh = SubResource("BoxMesh_l8pq3")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.687633, 0.726059, 0, -0.726059, 0.687633, 0, 0, 0, 1, 1.98658, 23.3298, 0)

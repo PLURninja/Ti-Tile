@@ -13,7 +13,7 @@ size = Vector3(32, 0.5, 32)
 script = ExtResource("1_k8vwo")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.974535, 0.224237, 0, -0.224237, 0.974535, 0, 3.78311, 18.1031)
+transform = Transform3D(1, 0, 0, 0, 0.700585, 0.713569, 0, -0.713569, 0.700585, 0, 9.42621, 2.96111)
 
 [node name="Ground" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
@@ -30,9 +30,6 @@ transform = Transform3D(0.687633, 0.726059, 0, -0.726059, 0.687633, 0, 0, 0, 1, 
 
 [node name="GridMap" type="GridMap" parent="."]
 mesh_library = ExtResource("2_40wge")
-cell_size = Vector3(1, 0.25, 1)
-data = {
-"cells": PackedInt32Array(-1, 65535, 1048617, -65536, 65535, 1048617, -65536, 0, 1048617, -1, 0, 1048617, -65536, 65534, 41, -1, 65534, 41, -2, 65534, 41, -2, 65535, 41, -2, 0, 41, 262143, 65535, 107)
-}
+cell_size = Vector3(2, 0.25, 2)
 metadata/_edit_lock_ = true
-metadata/_editor_floor_ = Vector3(0, 3, 0)
+metadata/_editor_floor_ = Vector3(0, 0, 0)

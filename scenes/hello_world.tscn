@@ -30,6 +30,8 @@ transform = Transform3D(0.687633, 0.726059, 0, -0.726059, 0.687633, 0, 0, 0, 1, 
 
 [node name="GridMap" type="GridMap" parent="."]
 mesh_library = ExtResource("2_40wge")
-cell_size = Vector3(2, 0.25, 2)
+cell_size = Vector3(1, 0.25, 1)
 metadata/_edit_lock_ = true
 metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="TilePreview" type="MeshInstance3D" parent="."]

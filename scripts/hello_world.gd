@@ -43,7 +43,7 @@ func _input(event):
 		var click_position = get_ray_position(event.position)
 		if click_position:
 			var grid_coords = world_to_grid(click_position)
-			if is_empty(grid_coords):
+			if is_valid_placement(grid_coords):
 				add_tile(grid_coords)
 
 func get_ray_position(screen_position):
@@ -70,8 +70,30 @@ func grid_to_world(grid_coords: Vector3i):
 	var world_z = (grid_coords.z + 0.5) * cell_size.z
 	return Vector3(world_x, world_y, world_z)
 
+func add_tile(grid_coords: Vector3i):
+	grid_map.set_cell_item(grid_coords, BLOCK_GRASS_LOW)
+	first_tile_placed = true
+
 func is_empty(grid_coords: Vector3i):
 	return grid_map.get_cell_item(grid_coords) == GridMap.INVALID_CELL_ITEM
 
-func add_tile(grid_coords: Vector3i):
-	grid_map.set_cell_item(grid_coords, BLOCK_GRASS_LOW)
+func is_valid_placement(grid_coords: Vector3i) -> bool:
+	if is_empty(grid_coords):
+		if first_tile_placed:
+			return is_adjacent_to_tile(grid_coords)
+		else:
+			return true
+	return false
+
+func is_adjacent_to_tile(grid_coords: Vector3i) -> bool:
+	var directions = [
+		Vector3i(1, 0, 0),
+		Vector3i(-1, 0, 0),
+		Vector3i(0, 0, 1),
+		Vector3i(0, 0, -1)
+	]
+	for dir in directions:
+		var adjacent_coords = grid_coords + dir
+		if not is_empty(adjacent_coords):
+			return true
+	return false

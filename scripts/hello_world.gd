@@ -12,16 +12,17 @@ const WORLD_TILES_LIB = preload("res://mesh/WorldTilesLib.tres")
 # The tile preview instance
 @onready var tile_preview = $TilePreview
 
-const BLOCK_GRASS_LOW = 41
+const BLOCK_GRASS = 41
+const BLOCK_GRASS_LOW = 23
+const BLOCK_SNOW = 83
+const BLOCK_SNOW_LOW = 65
+
+var current_tile = 0
 var first_tile_placed = false
 
 func _ready():
-	# Ensure the tile preview is hidden initially
-	if tile_preview:
-		var mesh = WORLD_TILES_LIB.get_item_mesh(BLOCK_GRASS_LOW)
-		if mesh:
-			tile_preview.mesh = mesh
-			tile_preview.visible = false
+	current_tile = BLOCK_GRASS
+	set_preview(current_tile)
 
 func _input(event):
 	var mouse_position = get_viewport().get_mouse_position()
@@ -45,6 +46,18 @@ func _input(event):
 			var grid_coords = world_to_grid(click_position)
 			if is_valid_placement(grid_coords):
 				add_tile(grid_coords)
+	
+	if event is InputEventKey and event.pressed:
+		if event.key_label == KEY_1:
+			current_tile = BLOCK_GRASS
+		elif event.key_label == KEY_2:
+			current_tile = BLOCK_GRASS_LOW
+		if event.key_label == KEY_3:
+			current_tile = BLOCK_GRASS
+		elif event.key_label == KEY_4:
+			current_tile = BLOCK_GRASS_LOW
+		set_preview(current_tile)
+	
 
 func get_ray_position(screen_position):
 	var space_state = get_world_3d().direct_space_state
@@ -70,8 +83,16 @@ func grid_to_world(grid_coords: Vector3i):
 	var world_z = (grid_coords.z + 0.5) * cell_size.z
 	return Vector3(world_x, world_y, world_z)
 
+func set_preview(tile: int):
+	# Ensure the tile preview is hidden initially
+	if tile_preview:
+		var mesh = WORLD_TILES_LIB.get_item_mesh(current_tile)
+		if mesh:
+			tile_preview.mesh = mesh
+			tile_preview.visible = false
+
 func add_tile(grid_coords: Vector3i):
-	grid_map.set_cell_item(grid_coords, BLOCK_GRASS_LOW)
+	grid_map.set_cell_item(grid_coords, current_tile)
 	first_tile_placed = true
 
 func is_empty(grid_coords: Vector3i):

@@ -53,9 +53,9 @@ func _input(event):
 		elif event.key_label == KEY_2:
 			current_tile = BLOCK_GRASS_LOW
 		if event.key_label == KEY_3:
-			current_tile = BLOCK_GRASS
+			current_tile = BLOCK_SNOW
 		elif event.key_label == KEY_4:
-			current_tile = BLOCK_GRASS_LOW
+			current_tile = BLOCK_SNOW_LOW
 		set_preview(current_tile)
 	
 

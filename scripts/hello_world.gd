@@ -77,13 +77,13 @@ func _input(event):
 func handle_camera_movement(delta):
 	var input_direction = Vector3()
 	
-	if Input.is_action_pressed("ui_up"):
+	if Input.is_action_pressed("cam_f"):
 		input_direction.z += 1
-	if Input.is_action_pressed("ui_down"):
+	if Input.is_action_pressed("cam_b"):
 		input_direction.z -= 1
-	if Input.is_action_pressed("ui_left"):
+	if Input.is_action_pressed("cam_l"):
 		input_direction.x -= 1
-	if Input.is_action_pressed("ui_right"):
+	if Input.is_action_pressed("cam_r"):
 		input_direction.x += 1
 	
 	var cam_forward = -camera.global_transform.basis.z

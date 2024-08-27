@@ -14,7 +14,7 @@ const WORLD_TILES_LIB = preload("res://mesh/WorldTilesLib.tres")
 
 # Camera Settings
 var cam_move_speed = 69.0
-var cam_rotation_sensitivity = 0.5
+var cam_rotation_sensitivity = 0.69
 var cam_rotating = false
 var cam_rotation_origin = Vector3()
 var cam_click_pivot = Vector3()

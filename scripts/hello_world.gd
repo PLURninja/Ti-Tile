@@ -12,6 +12,14 @@ const WORLD_TILES_LIB = preload("res://mesh/WorldTilesLib.tres")
 # The tile preview instance
 @onready var tile_preview = $TilePreview
 
+# Camera Settings
+var cam_move_speed = 100.0
+var cam_rotation_sensitivity = 0.5
+var cam_rotating = false
+var cam_rotation_origin = Vector3()
+var cam_click_pivot = Vector3()
+
+# Tile Settings
 const BLOCK_GRASS = 41
 const BLOCK_GRASS_LOW = 23
 const BLOCK_SNOW = 83
@@ -22,7 +30,11 @@ var first_tile_placed = false
 
 func _ready():
 	current_tile = BLOCK_GRASS
-	set_preview(current_tile)
+	set_preview(current_tile)	
+
+func _process(delta):
+	handle_camera_movement(delta)
+	handle_camera_rotation()
 
 func _input(event):
 	var mouse_position = get_viewport().get_mouse_position()
@@ -50,14 +62,54 @@ func _input(event):
 	if event is InputEventKey and event.pressed:
 		if event.key_label == KEY_1:
 			current_tile = BLOCK_GRASS
+			set_preview(current_tile)
 		elif event.key_label == KEY_2:
 			current_tile = BLOCK_GRASS_LOW
+			set_preview(current_tile)
 		if event.key_label == KEY_3:
 			current_tile = BLOCK_SNOW
+			set_preview(current_tile)
 		elif event.key_label == KEY_4:
 			current_tile = BLOCK_SNOW_LOW
-		set_preview(current_tile)
+			set_preview(current_tile)
 	
+
+func handle_camera_movement(delta):
+	var input_direction = Vector3()
+	
+	if Input.is_action_pressed("ui_up"):
+		input_direction.z += 1
+	if Input.is_action_pressed("ui_down"):
+		input_direction.z -= 1
+	if Input.is_action_pressed("ui_left"):
+		input_direction.x -= 1
+	if Input.is_action_pressed("ui_right"):
+		input_direction.x += 1
+	
+	var cam_forward = -camera.global_transform.basis.z
+	var cam_side = camera.global_transform.basis.x
+	cam_forward.y = 0
+	cam_side.y = 0
+	cam_forward = cam_forward.normalized()
+	cam_side = cam_side.normalized()
+	
+	# Move the camera along its own X/Z plane
+	var movement_vector = (cam_forward * input_direction.z + cam_side * input_direction.x).normalized()
+	camera.global_transform.origin += movement_vector * cam_move_speed * delta
+
+func handle_camera_rotation():
+	if Input.is_action_just_pressed("click_r"):
+		cam_rotating = true
+		cam_click_pivot = get_viewport().get_mouse_position()
+		cam_rotation_origin = camera.rotation_degrees
+	
+	if Input.is_action_pressed("click_r") and cam_rotating:
+		var mouse_position = get_viewport().get_mouse_position()
+		var delta_rotation = (mouse_position - cam_click_pivot) * cam_rotation_sensitivity
+		camera.rotation_degrees.y = cam_rotation_origin.y - delta_rotation.x
+	
+	if Input.is_action_just_released("click_r"):
+		cam_rotating = false
 
 func get_ray_position(screen_position):
 	var space_state = get_world_3d().direct_space_state

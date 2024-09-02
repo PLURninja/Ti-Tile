@@ -138,7 +138,7 @@ func grid_to_world(grid_coords: Vector3i):
 func set_preview(tile: int):
 	# Ensure the tile preview is hidden initially
 	if tile_preview:
-		var mesh = WORLD_TILES_LIB.get_item_mesh(current_tile)
+		var mesh = WORLD_TILES_LIB.get_item_mesh(tile)
 		if mesh:
 			tile_preview.mesh = mesh
 			tile_preview.visible = false

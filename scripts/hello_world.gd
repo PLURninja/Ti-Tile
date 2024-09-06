@@ -13,8 +13,8 @@ const WORLD_TILES_LIB = preload("res://mesh/WorldTilesLib.tres")
 @onready var tile_preview = $TilePreview
 
 # Camera Settings
-var cam_move_speed = 69.0
-var cam_rotation_sensitivity = 0.69
+@export var cam_move_speed = 69.0
+@export var cam_rotation_sensitivity = 0.69
 var cam_rotating = false
 var cam_rotation_origin = Vector3()
 var cam_click_pivot = Vector3()
@@ -138,7 +138,7 @@ func grid_to_world(grid_coords: Vector3i):
 func set_preview(tile: int):
 	# Ensure the tile preview is hidden initially
 	if tile_preview:
-		var mesh = WORLD_TILES_LIB.get_item_mesh(current_tile)
+		var mesh = WORLD_TILES_LIB.get_item_mesh(tile)
 		if mesh:
 			tile_preview.mesh = mesh
 			tile_preview.visible = false

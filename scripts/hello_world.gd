@@ -4,6 +4,7 @@ extends Node3D
 @onready var camera = $Camera3D
 @onready var grid_map = $GridMap
 @onready var player = $Player
+@onready var nav = $AStar
 
 # The mesh library associated with the grid map
 const WORLD_TILES_LIB = preload("res://mesh/WorldTilesLib.tres")
@@ -57,7 +58,7 @@ func _input(event):
 			var grid_coords = world_to_grid(click_position)
 			if is_valid_placement(grid_coords):
 				add_tile(grid_coords)
-				player.set_new_target(grid_to_world(grid_coords))
+				player.update_path(nav.find_path(player.global_transform.origin, grid_to_world(grid_coords)))
 				
 	
 	if event is InputEventKey and event.pressed:
@@ -146,6 +147,7 @@ func set_preview(tile: int):
 
 func add_tile(grid_coords: Vector3i):
 	grid_map.set_cell_item(grid_coords, current_tile)
+	nav.add_point(grid_to_world(grid_coords))
 	first_tile_placed = true
 
 func is_empty(grid_coords: Vector3i):

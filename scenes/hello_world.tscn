@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://4c0cbijst57s"]
+[gd_scene load_steps=9 format=3 uid="uid://4c0cbijst57s"]
 
 [ext_resource type="Script" path="res://scripts/hello_world.gd" id="1_k8vwo"]
 [ext_resource type="MeshLibrary" uid="uid://uciet0hxh5k5" path="res://mesh/WorldTilesLib.tres" id="2_40wge"]
 [ext_resource type="Script" path="res://scripts/CharacterBody3D.gd" id="3_it0jo"]
+[ext_resource type="Script" path="res://scripts/AStar.gd" id="4_o14yo"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_evjwf"]
 size = Vector3(32, 0.5, 32)
@@ -20,7 +21,7 @@ script = ExtResource("1_k8vwo")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.700585, 0.713569, 0, -0.713569, 0.700585, 0, 9.42621, 2.96111)
 
-[node name="Ground" type="StaticBody3D" parent="."]
+[node name="Ground" type="StaticBody3D" parent="." groups=["pathable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 metadata/_edit_group_ = true
 
@@ -50,3 +51,6 @@ shape = SubResource("CapsuleShape3D_l04mh")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
 mesh = SubResource("CapsuleMesh_4kjia")
+
+[node name="AStar" type="Node3D" parent="."]
+script = ExtResource("4_o14yo")

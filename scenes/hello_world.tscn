@@ -1,13 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://4c0cbijst57s"]
+[gd_scene load_steps=8 format=3 uid="uid://4c0cbijst57s"]
 
 [ext_resource type="Script" path="res://scripts/hello_world.gd" id="1_k8vwo"]
 [ext_resource type="MeshLibrary" uid="uid://uciet0hxh5k5" path="res://mesh/WorldTilesLib.tres" id="2_40wge"]
+[ext_resource type="Script" path="res://scripts/CharacterBody3D.gd" id="3_it0jo"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_evjwf"]
 size = Vector3(32, 0.5, 32)
 
 [sub_resource type="BoxMesh" id="BoxMesh_l8pq3"]
 size = Vector3(32, 0.5, 32)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_l04mh"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_4kjia"]
 
 [node name="HelloWorld" type="Node3D"]
 script = ExtResource("1_k8vwo")
@@ -35,3 +40,13 @@ metadata/_edit_lock_ = true
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
 [node name="TilePreview" type="MeshInstance3D" parent="."]
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.429033, 1.63404, 0.641232)
+script = ExtResource("3_it0jo")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CapsuleShape3D_l04mh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("CapsuleMesh_4kjia")

@@ -1,10 +1,9 @@
 extends Node3D
 
-# Reference to the camera
+# Reference to the world
 @onready var camera = $Camera3D
-
-# The grid map
 @onready var grid_map = $GridMap
+@onready var player = $Player
 
 # The mesh library associated with the grid map
 const WORLD_TILES_LIB = preload("res://mesh/WorldTilesLib.tres")
@@ -58,6 +57,8 @@ func _input(event):
 			var grid_coords = world_to_grid(click_position)
 			if is_valid_placement(grid_coords):
 				add_tile(grid_coords)
+				player.set_new_target(grid_to_world(grid_coords))
+				
 	
 	if event is InputEventKey and event.pressed:
 		if event.key_label == KEY_1:

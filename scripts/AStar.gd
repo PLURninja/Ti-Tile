@@ -50,6 +50,46 @@ func world_to_astar(world: Vector3) -> String:
 	var z = snapped(world.z, grid_step)
 	return "%d,%d,%d" % [x, y, z]
 
+func find_optimal_loop_path(points: Array[Vector3]) -> Array:
+	if points.size() < 2:
+		return []  # No loop needed if fewer than 2 points
+	
+	var start_point = points[0]
+	var visited = [start_point]  # Track visited points starting with the first one
+	var total_path = []  # Store the final path
+
+	var current_point = start_point
+	var remaining_points = points.duplicate()  # Copy of points array to track remaining points
+	remaining_points.remove_at(0)  # Remove the starting point from remaining points
+
+	# Loop through all the points to find the nearest neighbor each time
+	while remaining_points.size() > 0:
+		var nearest_point = null
+		var shortest_distance = INF
+		var shortest_path = []
+
+		# Find the nearest point based on direct distance
+		for next_point in remaining_points:
+			var distance = current_point.distance_to(next_point)
+			if distance < shortest_distance:
+				shortest_distance = distance
+				nearest_point = next_point
+
+		# Now that we know the nearest point, get the path to it
+		shortest_path = find_path(current_point, nearest_point)
+
+		# Add the path to the total path and mark the nearest point as visited
+		total_path += shortest_path
+		visited.append(nearest_point)
+		current_point = nearest_point
+		remaining_points.erase(nearest_point)
+
+	# Once all points are visited, return to the starting point
+	var return_path = find_path(current_point, start_point)
+	total_path += return_path
+
+	return total_path
+
 # For use if needing mesh
 
 #func _ready():

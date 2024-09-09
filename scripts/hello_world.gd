@@ -1,15 +1,13 @@
 extends Node3D
 
-# Reference to the camera
+# Reference to the world
 @onready var camera = $Camera3D
-
-# The grid map
 @onready var grid_map = $GridMap
+@onready var player = $Player
+@onready var nav = $AStar
 
-# The mesh library associated with the grid map
+# The mesh library associated with the grid map and tile preview instance
 const WORLD_TILES_LIB = preload("res://mesh/WorldTilesLib.tres")
-
-# The tile preview instance
 @onready var tile_preview = $TilePreview
 
 # Camera Settings
@@ -27,6 +25,7 @@ const BLOCK_SNOW_LOW = 65
 
 var current_tile = 0
 var first_tile_placed = false
+var recent_tiles: Array[Vector3] = []
 
 func _ready():
 	current_tile = BLOCK_GRASS
@@ -35,6 +34,7 @@ func _ready():
 func _process(delta):
 	handle_camera_movement(delta)
 	handle_camera_rotation()
+	handle_adventure_pathing()
 
 func _input(event):
 	var mouse_position = get_viewport().get_mouse_position()
@@ -58,6 +58,8 @@ func _input(event):
 			var grid_coords = world_to_grid(click_position)
 			if is_valid_placement(grid_coords):
 				add_tile(grid_coords)
+				player.update_path(nav.find_path(player.global_transform.origin, grid_to_world(grid_coords)))
+				
 	
 	if event is InputEventKey and event.pressed:
 		if event.key_label == KEY_1:
@@ -73,6 +75,10 @@ func _input(event):
 			current_tile = BLOCK_SNOW_LOW
 			set_preview(current_tile)
 	
+
+func handle_adventure_pathing():
+	if Input.is_action_pressed("path"):
+		player.update_path(nav.find_optimal_loop_path(recent_tiles))
 
 func handle_camera_movement(delta):
 	var input_direction = Vector3()
@@ -121,14 +127,14 @@ func get_ray_position(screen_position):
 		return result.position
 	return null
 
-func world_to_grid(world_position):
+func world_to_grid(world_position: Vector3) -> Vector3i:
 	var cell_size = grid_map.cell_size
 	var grid_x = int(floor(world_position.x / cell_size.x))
 	var grid_y = int(floor(world_position.y / cell_size.y))
 	var grid_z = int(floor(world_position.z / cell_size.z))
 	return Vector3i(grid_x, grid_y, grid_z)
 
-func grid_to_world(grid_coords: Vector3i):
+func grid_to_world(grid_coords: Vector3i) -> Vector3:
 	var cell_size = grid_map.cell_size
 	var world_x = (grid_coords.x + 0.5) * cell_size.x
 	var world_y = (grid_coords.y + 0.5) * cell_size.y
@@ -145,7 +151,12 @@ func set_preview(tile: int):
 
 func add_tile(grid_coords: Vector3i):
 	grid_map.set_cell_item(grid_coords, current_tile)
-	first_tile_placed = true
+	nav.add_point(grid_to_world(grid_coords))
+	recent_tiles.push_front(grid_to_world(grid_coords))
+	if recent_tiles.size() > 8:
+		recent_tiles.pop_back()
+	if not first_tile_placed:
+		first_tile_placed = true
 
 func is_empty(grid_coords: Vector3i):
 	return grid_map.get_cell_item(grid_coords) == GridMap.INVALID_CELL_ITEM

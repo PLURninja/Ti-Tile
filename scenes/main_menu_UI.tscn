@@ -1,7 +1,22 @@
-[gd_scene load_steps=5 format=3 uid="uid://vbv5v1tyeimv"]
+[gd_scene load_steps=9 format=3 uid="uid://vbv5v1tyeimv"]
 
+[ext_resource type="Script" path="res://scenes/main_menu_UI.gd" id="1_eerv5"]
 [ext_resource type="Texture2D" uid="uid://du85y4nr0g6qc" path="res://UI_components/Main_Menu_Background.png" id="1_y87bx"]
 [ext_resource type="FontFile" uid="uid://djad3dy62h02q" path="res://UI_components/RubikPixels-Regular.ttf" id="2_8srgs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sgecl"]
+bg_color = Color(0.428681, 0.184088, 0.0784864, 1)
+border_width_bottom = 4
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+shadow_color = Color(0, 0, 0, 0.72549)
+shadow_size = 3
+shadow_offset = Vector2(0.5, 2)
+
+[sub_resource type="Theme" id="Theme_8vqof"]
+Button/styles/normal = SubResource("StyleBoxFlat_sgecl")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bmvm5"]
 
@@ -17,9 +32,11 @@ border_blend = true
 corner_radius_bottom_right = 50
 corner_detail = 10
 expand_margin_left = 78.0
-shadow_color = Color(0, 0, 0, 0.392157)
-shadow_size = 1
-shadow_offset = Vector2(0, 2)
+shadow_color = Color(0, 0, 0, 0.490196)
+shadow_size = 5
+shadow_offset = Vector2(-4, 6)
+
+[sub_resource type="Theme" id="Theme_a5vv1"]
 
 [node name="MainMenuUi" type="Control"]
 layout_mode = 3
@@ -28,6 +45,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_8vqof")
+script = ExtResource("1_eerv5")
 
 [node name="MainMenuBackground" type="Sprite2D" parent="."]
 position = Vector2(576.111, 328.5)
@@ -132,3 +151,32 @@ theme_override_fonts/normal_font = ExtResource("2_8srgs")
 theme_override_font_sizes/normal_font_size = 60
 text = "Exit Game"
 scroll_active = false
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -89.0
+offset_right = 88.0
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Start_Game" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_a5vv1")
+text = "Start Game"
+
+[node name="Options" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Options"
+
+[node name="Exit_Game" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Exit Game"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Start_Game" to="." method="_on_start_game_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Exit_Game" to="." method="_on_exit_game_pressed"]

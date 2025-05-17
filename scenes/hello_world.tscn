@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://4c0cbijst57s"]
 
-[ext_resource type="Script" path="res://scripts/hello_world.gd" id="1_k8vwo"]
-[ext_resource type="MeshLibrary" uid="uid://uciet0hxh5k5" path="res://mesh/WorldTilesLib.tres" id="2_40wge"]
-[ext_resource type="Script" path="res://scripts/CharacterBody3D.gd" id="3_it0jo"]
-[ext_resource type="Script" path="res://scripts/AStar.gd" id="4_o14yo"]
+[ext_resource type="Script" uid="uid://bfgvwo5p1dl4w" path="res://scripts/hello_world.gd" id="1_k8vwo"]
+[ext_resource type="MeshLibrary" path="res://mesh/WorldTilesLib.tres" id="2_40wge"]
+[ext_resource type="Script" uid="uid://dwg140gibp1jc" path="res://scripts/CharacterBody3D.gd" id="3_it0jo"]
+[ext_resource type="Script" uid="uid://y0ysicegynyr" path="res://scripts/AStar.gd" id="4_o14yo"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_evjwf"]
 size = Vector3(32, 0.5, 32)
@@ -35,7 +35,6 @@ transform = Transform3D(0.687633, 0.726059, 0, -0.726059, 0.687633, 0, 0, 0, 1, 
 [node name="GridMap" type="GridMap" parent="."]
 mesh_library = ExtResource("2_40wge")
 cell_size = Vector3(1, 0.25, 1)
-metadata/_edit_lock_ = true
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
 [node name="TilePreview" type="MeshInstance3D" parent="."]

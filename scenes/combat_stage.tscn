@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://cu50iuyuu5es2"]
+
+[ext_resource type="Script" uid="uid://dnkv1fy4gr2o3" path="res://scripts/heroes/player.gd" id="1_hbrtu"]
+[ext_resource type="Script" uid="uid://cinevl3q88vte" path="res://scripts/creatures/e_creature.gd" id="2_sajad"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3uwou"]
+
+[node name="CombatStage" type="Node3D"]
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.052109)
+script = ExtResource("1_hbrtu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.06871)
+mesh = SubResource("CapsuleMesh_3uwou")
+
+[node name="Enemy" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.052109)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Enemy"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.14676)
+mesh = SubResource("CapsuleMesh_3uwou")
+
+[node name="ECreature" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.34426)
+script = ExtResource("2_sajad")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ECreature"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.14676)
+mesh = SubResource("CapsuleMesh_3uwou")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.812308, 0.583229, 0, -0.583229, 0.812308, 0, 3.47977, 5.67364)
+fov = 75.8007
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.464564, 0.88554, 0, -0.88554, 0.464564, -0.527153, 7.03307, -0.056581)
